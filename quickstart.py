@@ -3,9 +3,14 @@ from html.parser import HTMLParser
 from pathlib import Path
 import html
 import collections
+from urllib.parse import urlparse
 
 import attr
 from markdown import markdown
+from mako.lookup import TemplateLookup
+
+
+lookup = TemplateLookup(directories=['site'])
 
 
 @attr.s
@@ -27,6 +32,10 @@ class MyHtmlParser(HTMLParser):
     def handle_starttag(self, tag, attrs):
         if tag == 'translation':
             self.translation = []
+        else:
+            parts = ('{}="{}"'.format(k, v) for k, v in attrs)
+            attr_str = (' ' + ' '.join(parts)) if len(attrs) else ''
+            self.sio.write('<{}{}>'.format(tag, attr_str))
 
     def handle_endtag(self, tag):
         if tag == 'translation':
@@ -35,6 +44,8 @@ class MyHtmlParser(HTMLParser):
             html = get_translation_html(lines)
             self.sio.write(html)
             self.translation = None
+        else:
+            self.sio.write('</{}>'.format(tag))
 
     def handle_data(self, text):
         if self.translation is not None:
@@ -42,20 +53,12 @@ class MyHtmlParser(HTMLParser):
         else:
             self.sio.write(text)
 
-    def handle_startendtag(self, tag, attrs):
-        if tag == 'video':
-            url = dict(attrs).get('url')
-            html = (
-                '<div>'
-                '<iframe src="{}" frameborder="0" allowfullscreen></iframe>'
-                '</div>').format(url)
-            self.sio.write(html)
-
 
 def parse(filename):
     parser = MyHtmlParser()
     parser.feed(Path(filename).read_text())
     output = parser.get_output()
+    with open('output.txt', 'w') as fp: fp.write(output)
     return markdown(output)
 
 
@@ -84,7 +87,7 @@ def get_translation_lines(text):
 
 def get_translation_html(lines):
     escape = html.escape
-    result = ['<div>']
+    result = ['<div class="lyrics">']
     for tline in lines:
         result.append('<div class="line">')
         result.append(' <div class="orig">{}</div>'.format(escape(tline.orig)))
@@ -97,12 +100,6 @@ def get_translation_html(lines):
 
 
 with open('output.html', 'w') as fp:
-    fp.write("""
-    <html>
-        <head>
-        <meta charset='utf-8'>
-        </head>
-        <body>
-    """)
-    fp.write(parse('sample.md'))
-    fp.write('</body></html>')
+    content = parse('sample.md')
+    tmpl = lookup.get_template('translation.html')
+    fp.write(tmpl.render(song_title='Cool Title', content=content))

@@ -4,7 +4,10 @@ Artist: 杨乐
 
 Introductory text.
 
-<video url='https://youtu.be/q3Ewcg5CVWY?t=1m30s' />
+<div>
+  <a class="embedly-card" href="https://youtu.be/q3Ewcg5CVWY?t=1m30s">中国之星第1期: 杨乐《音乐响起》自弹自唱 磁性嗓音引欢呼【东方卫视官方超清】</a>
+  <script async src="//cdn.embedly.com/widgets/platform.js" charset="UTF-8"></script>
+</div>
 
 **Cool video**, right?
 
