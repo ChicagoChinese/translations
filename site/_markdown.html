@@ -2,6 +2,10 @@
 
 <%block name='title_block'>${title}</%block>
 
+<%block name='extrahead'>
+<link rel='stylesheet' href='/styles/markdown.css'>
+</%block>
+
 <h1>${title_block()}</h1>
 
 ${content}

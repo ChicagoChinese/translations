@@ -1,0 +1,11 @@
+<div class="lyrics">
+% for tline in lines:
+  <div class="line row">
+    <div class="orig col-xs-12 col-sm-6 col-md-6">${tline.orig}</div>
+    <div class="tran col-xs-12 col-sm-6 col-md-6">${tline.tran}</div>
+    % if tline.notes:
+      <div class="notes col-xs-12 col-md-12">${tline.rendered_notes}</div>
+    % endif
+   </div>
+% endfor
+</div>

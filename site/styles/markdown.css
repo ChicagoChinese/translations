@@ -1,0 +1,15 @@
+.lyrics {
+  padding: 1rem 0;
+  border-top: 1px solid lightgray;
+  border-bottom: 1px solid lightgray;
+  margin-bottom: 2rem;
+}
+.lyrics .row:hover {
+  background-color: #e0f7fa;
+}
+.lyrics .orig {
+  font-weight: bold;
+}
+.lyrics .tran {
+  font-style: italic;
+}

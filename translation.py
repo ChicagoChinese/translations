@@ -5,11 +5,15 @@ import html
 
 import attr
 from markdown import markdown
+from mako.template import Template
+
+
+template = Template(filename='translation.html')
 
 
 def to_html(text):
     lines = get_translation_lines(text)
-    return get_translation_html(lines)
+    return template.render(lines=lines)
 
 
 @attr.s
@@ -49,19 +53,3 @@ def get_translation_lines(text):
             line.tran = dd[line.orig]
 
     return lines
-
-
-def get_translation_html(lines):
-    escape = html.escape
-
-    def gen():
-        yield '<div class="lyrics">'
-        for tline in lines:
-            yield '<div class="line row">'
-            yield ' <div class="orig">{}</div>'.format(escape(tline.orig))
-            yield ' <div class="tran">{}</div>'.format(escape(tline.tran))
-            yield ' <div class="notes">{}</div>'.format(tline.rendered_notes)
-            yield '</div>'
-        yield '</div>'
-
-    return '\n'.join(gen())
