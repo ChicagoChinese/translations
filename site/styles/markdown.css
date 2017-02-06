@@ -16,3 +16,7 @@
 .lyrics .tran {
   font-style: italic;
 }
+.lyrics .warning {
+  color: #f44336;
+  background-color: #fce4ec;
+}

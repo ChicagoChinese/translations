@@ -54,6 +54,6 @@ def get_translation_lines(text):
 
     for line in lines:
         if line.tran == '':
-            line.tran = dd[line.orig]
+            line.tran = dd.get(line.orig, '')
 
     return lines
