@@ -23,6 +23,10 @@ class TLine:
     tran = attr.ib(default='')
     notes = attr.ib(default=attr.Factory(list))
 
+    @property
+    def rendered_notes(self):
+        return markdown('\n\n'.join(self.notes))
+
 
 def get_translation_lines(text):
     dd = {}
@@ -49,13 +53,15 @@ def get_translation_lines(text):
 
 def get_translation_html(lines):
     escape = html.escape
-    result = ['<div class="lyrics">']
-    for tline in lines:
-        result.append('<div class="line">')
-        result.append(' <div class="orig">{}</div>'.format(escape(tline.orig)))
-        result.append(' <div class="tran">{}</div>'.format(escape(tline.tran)))
-        notes = '\n\n'.join(tline.notes)
-        result.append(' <div class="notes">{}</div>'.format(markdown(notes)))
-        result.append('</div>')
-    result.append('</div>')
-    return '\n'.join(result)
+
+    def gen():
+        yield '<div class="lyrics">'
+        for tline in lines:
+            yield '<div class="line row">'
+            yield ' <div class="orig">{}</div>'.format(escape(tline.orig))
+            yield ' <div class="tran">{}</div>'.format(escape(tline.tran))
+            yield ' <div class="notes">{}</div>'.format(tline.rendered_notes)
+            yield '</div>'
+        yield '</div>'
+
+    return '\n'.join(gen())

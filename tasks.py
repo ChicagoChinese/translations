@@ -20,7 +20,7 @@ def catch_all(path):
     if not filepath.exists() and filepath.suffix == '':
         md_path = filepath.with_suffix('.md')
         return render(
-            '_translation.html',
+            '_markdown.html',
             title=md_path.stem,
             content=markdownext.parse_file(md_path))
 
