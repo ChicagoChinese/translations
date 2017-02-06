@@ -1,10 +1,10 @@
 <div class="lyrics">
-% for tline in lines:
-  <div class="line row">
-    <div class="orig col-xs-12 col-sm-6 col-md-6">${tline.orig}</div>
-    <div class="tran col-xs-12 col-sm-6 col-md-6">${tline.tran}</div>
-    % if tline.notes:
-      <div class="notes col-xs-12 col-md-12">${tline.rendered_notes}</div>
+% for line in lines:
+  <div class="line row ${'last' if line.last else ''}">
+    <div class="orig col-xs-12 col-sm-6 col-md-5 col-lg-4">${line.orig}</div>
+    <div class="tran col-xs-12 col-sm-6 col-md-5 col-lg-4">${line.tran}</div>
+    % if line.notes:
+      <div class="notes col-xs-12 col-md-12">${line.rendered_notes}</div>
     % endif
    </div>
 % endfor

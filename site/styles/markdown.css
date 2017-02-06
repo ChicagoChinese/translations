@@ -4,8 +4,11 @@
   border-bottom: 1px solid lightgray;
   margin-bottom: 2rem;
 }
-.lyrics .row:hover {
+.lyrics .line:hover {
   background-color: #e0f7fa;
+}
+.lyrics .line.last {
+  margin-bottom: 1.5rem;
 }
 .lyrics .orig {
   font-weight: bold;
