@@ -8,13 +8,14 @@
   background-color: #e0f7fa;
 }
 .lyrics .line.last {
-  margin-bottom: 1.5rem;
+  margin-bottom: 2rem;
 }
 .lyrics .orig {
-  font-weight: bold;
+  font-size: 1.8rem;
 }
 .lyrics .tran {
   font-style: italic;
+  color: gray;
 }
 .lyrics .warning {
   color: #f44336;
