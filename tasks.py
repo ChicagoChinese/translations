@@ -1,57 +1,94 @@
 import subprocess
 from pathlib import Path
+
 from invoke import task
-from flask import Flask, send_from_directory
-from mako.lookup import TemplateLookup
 
-import markdownext
-
-
-app = Flask(__name__)
-site = Path('site')
-lookup = TemplateLookup(directories=[str(site)], strict_undefined=True)
-
-
-@app.route('/', defaults={'path': ''})
-@app.route('/<path:path>')
-def catch_all(path):
-    filepath = site / path
-
-    if not filepath.exists() and filepath.suffix == '':
-        md_path = filepath.with_suffix('.md')
-        return render(
-            '_markdown.html',
-            title=md_path.stem,
-            content=markdownext.parse_file(md_path))
-
-    if filepath.is_dir():
-        index_path = filepath / 'index.html'
-        if index_path.exists():
-            return render(index_path.relative_to(site))
-
-    if filepath.exists():
-        return send_from_directory(str(site), path)
-
-    return 'File not found', 404
+from common import site_dir, build_dir, site_root, categories
+from render import render_template
+from app import app
 
 
 @task
 def serve(ctx):
+    """
+    Serve the site at localhost:8000 so that you can see the results of your
+    changes without building.
+
+    """
     app.run(port=8000, debug=True)
 
 
+@task
+def serve_build(ctx):
+    """
+    Serve the contents of the build/ directory.
+
+    """
+    run('cd {} && python -m http.server'.format(build_dir))
+
+
+@task
+def clean(ctx):
+    """
+    Delete all files inside the build directory.
+
+    """
+    if build_dir.exists():
+        run('rm -rf build/*')
+
+
+@task
+def build(ctx):
+    """
+    Build the static files for the web site and put them inside the build
+    directory.
+
+    """
+    import shutil
+
+    clean(ctx)
+
+    client = app.test_client()
+
+    # Generate HTML files using Flask.
+    for url in get_build_urls():
+        dest = build_dir / Path(url).relative_to(site_root) / 'index.html'
+        print(dest)
+        if not dest.exists():
+            dest.parent.mkdir(parents=True, exist_ok=True)
+        with dest.open('wb') as fp:
+            data = client.get(url).data
+            fp.write(data)
+
+    # Copy static files.
+    for src in site_dir.rglob('*?.*'):
+        dest = build_dir / src.relative_to(site_dir)
+        print(dest)
+        if not dest.exists():
+            dest.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copy(str(src), str(dest))
+
+
+@task
+def publish(ctx):
+    """
+    Publish the web site to GitHub Pages.
+
+    """
+    build(ctx)
+    run('ghp-import -n -p {}'.format(build_dir))
+
+
 def run(cmd):
-    subprocess.call(cmd, shell=True)
+    subprocess.call(cmd, shell=isinstance(cmd, str))
 
 
-def render(template_name, **kwargs):
-    kwargs.update(
-        PATH=site / template_name,
-        get_translation_files=get_translation_files)
-    tmpl = lookup.get_template(str(template_name))
-    return tmpl.render(**kwargs)
+def get_build_urls():
+    """
+    Return a sequence of URLs to generate HTML files from.
 
-
-def get_translation_files(path):
-    for p in path.parent.glob('*.md'):
-        yield p.relative_to(site)
+    """
+    yield site_root
+    for category in categories:
+        for file_ in (site_root / category).glob('*.json'):
+            yield '{}{}/{}/'.format(site_root, category.name, file_.stem)

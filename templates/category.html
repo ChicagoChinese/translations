@@ -1,0 +1,13 @@
+<%inherit file='base.html'/>
+
+<%block name='title_block'>${category.capitalize()}</%block>
+
+<h1>${title_block()}</h1>
+
+<ul>
+% for doc in docs:
+  <li>
+    <a href='${doc.slug}/'>${doc.title}</a>
+  </li>
+% endfor
+</ul>

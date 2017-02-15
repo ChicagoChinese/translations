@@ -1,0 +1,13 @@
+<%inherit file='base.html'/>
+
+<%block name='title_block'>Chicago Chinese Language Meetup Translations</%block>
+
+<h1>${title_block()}</h1>
+
+<ul>
+% for category in categories:
+  <li>
+    <a href='${category}/'>${category.capitalize()}</a>
+  </li>
+% endfor
+</ul>
