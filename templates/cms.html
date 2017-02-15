@@ -2,12 +2,20 @@
 
 <%block name='title_block'>CMS</%block>
 
-<h1>${title_block()}</h1>
+<%block name='extrahead'>
+<link rel='stylesheet' href='${ROOT}css/cms.css'>
+</%block>
 
-<ul>
-% for category in categories:
-  <li>
-    <a href='${category}/'>${category.capitalize()}</a>
-  </li>
-% endfor
-</ul>
+<body>
+
+<div class='sidebar'>
+  sidebar
+</div>
+
+<main>
+main
+</main>
+
+<script src='http://code.jquery.com/jquery-3.1.1.min.js'></script>
+<script src='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js'></script>
+</body>

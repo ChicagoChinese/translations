@@ -1,4 +1,5 @@
 from flask import Flask, redirect, send_from_directory, url_for
+from flask.views import MethodView
 
 from common import site_dir, build_dir, site_root, categories
 from render import render_template, Document
@@ -13,6 +14,7 @@ class RegexConverter(BaseConverter):
 
 app = Flask(__name__)
 app.url_map.converters['regex'] = RegexConverter
+
 
 
 @app.route('/')
@@ -30,10 +32,10 @@ def home():
     return render_template('index.html', categories=categories)
 
 
-@app.route(site_root + '<regex("lyrics|document|video"):category>/')
-def category(category):
+@app.route(site_root + '<regex("lyrics|document|video"):name>/')
+def category(name):
     return render_template(
-        'category.html', category=category, docs=get_docs(category))
+        'category.html', category=name, docs=get_docs(name))
 
 
 @app.route(site_root + '<regex("lyrics|document|video"):category>/<slug>/')
@@ -66,6 +68,6 @@ def get_build_urls():
     with app.test_request_context():
         yield url_for('home')
         for cat in categories:
-            yield url_for('category', category=cat)
+            yield url_for('category', name=cat)
             for file_ in (site_dir / cat).glob('*.json'):
                 yield url_for('translation', category=cat, slug=file_.stem)
