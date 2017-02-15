@@ -20,7 +20,7 @@ const app = new Vue({
       })
     },
     cancel() {
-      this.workingCopy = {}
+      this.workingCopy = Object.assign({}, this.workingCopy)
     },
     submit(evt) {
       console.log('submit')
