@@ -18,7 +18,7 @@
 
 <div id='app'>
   <div class='sidebar'>
-    <select v-model='category'>
+    <select v-model='category' @change='choseCategory'>
     % for cat in categories:
       <option value='${cat}'>${cat.capitalize()}</option>
     % endfor

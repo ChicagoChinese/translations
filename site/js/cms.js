@@ -6,13 +6,15 @@ const app = new Vue({
     workingCopy: {}
   },
   mounted() {
-    axios.get(`/api/category/${this.category}/`).then(res => {
-      this.docs = res.data
-    })
+    this.updateDocs()
   },
   methods: {
     isSelected(slug) {
       return slug === this.workingCopy.slug
+    },
+    choseCategory() {
+      this.updateDocs()
+      this.workingCopy = {}
     },
     choseDoc(slug) {
       axios.get(`/api/translation/${this.category}-${slug}/`).then(res => {
@@ -25,6 +27,11 @@ const app = new Vue({
     },
     submit(evt) {
       console.log('submit')
+    },
+    updateDocs() {
+      axios.get(`/api/category/${this.category}/`).then(res => {
+        this.docs = res.data
+      })
     }
   }
 })
