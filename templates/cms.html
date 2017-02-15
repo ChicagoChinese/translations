@@ -49,7 +49,8 @@
       </div>
       <div class='buttons'>
         <button class='btn btn-default' @click.prevent='cancel'>Cancel</button>
-        <button type='submit' class='btn btn-primary'>Submit</button>
+        <button type='submit' class='btn btn-primary'
+                :class='{disabled: submitButtonDisabled}'>Submit</button>
       </div>
     </form>
   </main>

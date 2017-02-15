@@ -73,17 +73,17 @@ def home():
     return render_template('index.html', categories=categories)
 
 
-@app.route(site_root + '<regex("lyrics|document|video"):name>/')
-def category(name):
+@app.route(site_root + '<regex("lyrics|document|video"):catname>/')
+def category(catname):
     return render_template(
-        'category.html', category=name, docs=get_docs(name))
+        'category.html', category=catname, docs=get_docs(catname))
 
 
-@app.route(site_root + '<regex("lyrics|document|video"):category>/<slug>/')
-def translation(category, slug):
-    json_file = site_dir / category / (slug + '.json')
+@app.route(site_root + '<regex("lyrics|document|video"):catname>/<slug>/')
+def translation(catname, slug):
+    json_file = site_dir / catname / (slug + '.json')
     return render_template(
-        'translation.html', category=category, doc=Document(json_file))
+        'translation.html', category=catname, doc=Document(json_file))
 
 
 @app.route(site_root + '<path:path>')

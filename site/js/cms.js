@@ -8,6 +8,11 @@ const app = new Vue({
   mounted() {
     this.updateDocs()
   },
+  computed: {
+    submitButtonDisabled() {
+      return Object.keys(this.workingCopy).length === 0
+    }
+  },
   methods: {
     isSelected(slug) {
       return slug === this.workingCopy.slug
@@ -26,7 +31,14 @@ const app = new Vue({
       this.workingCopy = Object.assign({}, this.workingCopy)
     },
     submit(evt) {
-      console.log('submit')
+      let formData = new FormData(evt.target)
+      let payload = {}
+      for (let [k, v] of formData.entries()) {
+        payload[k] = v
+      }
+      axios.put(`/api/translations/${this.category}-${slug}/`, payload).then(res => {
+        console.log(res.data)
+      })
     },
     updateDocs() {
       axios.get(`/api/category/${this.category}/`).then(res => {
