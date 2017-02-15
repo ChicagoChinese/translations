@@ -8,6 +8,7 @@ const app = new Vue({
   },
   mounted() {
     this.updateDocs()
+    let simplemde = new SimpleMDE()
   },
   computed: {
     submitButtonDisabled() {
@@ -72,7 +73,7 @@ function getFormPayload(form) {
   for (let [k, v] of formData.entries()) {
     if (v !== '') {
       payload[k] = v
-    }    
+    }
   }
   return payload
 }
