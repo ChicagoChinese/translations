@@ -1,9 +1,10 @@
 from flask import Flask, redirect, send_from_directory, url_for
 from flask.views import MethodView
+from flask_restful import Resource, Api
+from werkzeug.routing import BaseConverter
 
 from common import site_dir, build_dir, site_root, categories
 from render import render_template, Document
-from werkzeug.routing import BaseConverter
 
 
 class RegexConverter(BaseConverter):
@@ -14,6 +15,20 @@ class RegexConverter(BaseConverter):
 
 app = Flask(__name__)
 app.url_map.converters['regex'] = RegexConverter
+api = Api(app)
+
+
+class CategoryApi(Resource):
+    def get(self, name):
+        cat_dir = site_dir / name
+        def gen():
+            for f in cat_dir.glob('*.json'):
+                doc = Document(f)
+                yield dict(slug=doc.slug, title=doc.title)
+        return list(gen())
+
+
+api.add_resource(CategoryApi, '/api/category/<name>/')
 
 
 

@@ -9,7 +9,11 @@
 <body>
 
 <div class='sidebar'>
-  sidebar
+  <select>
+  % for cat in categories:
+    <option value="${cat}">${cat.capitalize()}</option>
+  % endfor
+  </select>
 </div>
 
 <main>

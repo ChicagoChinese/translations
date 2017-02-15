@@ -3,6 +3,11 @@ body {
   flex-direction: row;
 }
 
+.sidebar {
+  padding: 1rem;
+}
+
 main {
   flex: 1;
+  padding: 1rem;
 }
