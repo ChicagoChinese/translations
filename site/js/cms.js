@@ -44,6 +44,7 @@ const app = new Vue({
       requestFn(url, payload).then(res => {
         if (res.status === 200 && this.isNew) {
           this.isNew = false
+          this.workingCopy = res.data
           this.updateDocs()
         }
         if (res.status !== 200) {
@@ -69,7 +70,9 @@ function getFormPayload(form) {
   let formData = new FormData(form)
   let payload = {}
   for (let [k, v] of formData.entries()) {
-    payload[k] = v
+    if (v !== '') {
+      payload[k] = v
+    }    
   }
   return payload
 }
