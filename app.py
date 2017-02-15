@@ -30,10 +30,11 @@ class CategoryApi(Resource):
         return list(gen())
 
     def post(self, name):
-        obj = request.get_json()
+        result = request.get_json()
         json_file = site_dir / name / (obj['slug'] + '.json')
         with json_file.open('w') as fp:
-            json.dump(fp, obj, indent=2)
+            json.dump(result, fp, indent=2)
+        return result
 
 
 class TranslationApi(Resource):
@@ -47,7 +48,11 @@ class TranslationApi(Resource):
 
     def put(self, id):
         cat, slug = id.split('-', 1)
-        return request.get_json()
+        json_file = site_dir / cat / (slug + '.json')
+        result = request.get_json()
+        with json_file.open('w') as fp:
+            json.dump(result, fp, indent=2)
+        return result
 
 
 api.add_resource(CategoryApi, '/api/category/<name>/')
