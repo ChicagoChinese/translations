@@ -20,6 +20,11 @@ def redirect_to_site_root():
     return redirect(site_root)
 
 
+@app.route('/cms')
+def cms():
+    return 'CMS'
+
+
 @app.route(site_root)
 def home():
     return render_template('index.html', categories=categories)

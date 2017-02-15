@@ -1,23 +1,23 @@
-.lyrics {
+.translation {
   padding: 1rem 0;
   border-top: 1px solid lightgray;
   border-bottom: 1px solid lightgray;
   margin-bottom: 2rem;
 }
-.lyrics .line:hover {
+.translation .line:hover {
   background-color: #e0f7fa;
 }
-.lyrics .line.last {
+.translation .line.last {
   margin-bottom: 2rem;
 }
-.lyrics .orig {
+.translation .orig {
   font-size: 1.8rem;
 }
-.lyrics .tran {
+.translation .tran {
   font-style: italic;
   color: gray;
 }
-.lyrics .warning {
+.translation .warning {
   color: #f44336;
   background-color: #fce4ec;
 }
