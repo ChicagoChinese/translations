@@ -3,6 +3,7 @@ const app = new Vue({
   data: {
     category: 'lyrics',
     docs: [],
+    isNew: false,
     workingCopy: {}
   },
   mounted() {
@@ -32,15 +33,33 @@ const app = new Vue({
     },
     submit(evt) {
       let payload = getFormPayload(evt.target)
-      let url = `/api/translation/${this.category}-${payload.slug}/`
-      axios.put(url, payload).then(res => {
-        console.log(res.data)
+      let url, requestFn
+      if (this.isNew) {
+        url = `/api/category/${this.category}/`
+        requestFn = axios.post
+      } else {
+        url = `/api/translation/${this.category}-${payload.slug}/`
+        requestFn = axios.put
+      }
+      requestFn(url, payload).then(res => {
+        if (res.status === 200 && this.isNew) {
+          this.isNew = false
+          this.updateDocs()
+        }
+        if (res.status !== 200) {
+          console.log('Error:', res.data)
+        }
       })
     },
     updateDocs() {
       axios.get(`/api/category/${this.category}/`).then(res => {
         this.docs = res.data
       })
+    },
+    newDoc() {
+      this.$el.querySelector('input[name=slug]').focus()
+      this.workingCopy = {}
+      this.isNew = true
     }
   }
 })

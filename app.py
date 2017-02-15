@@ -31,7 +31,7 @@ class CategoryApi(Resource):
 
     def post(self, name):
         result = request.get_json()
-        json_file = site_dir / name / (obj['slug'] + '.json')
+        json_file = site_dir / name / (result['slug'] + '.json')
         with json_file.open('w') as fp:
             json.dump(result, fp, indent=2)
         return result
