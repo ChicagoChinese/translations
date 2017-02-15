@@ -1,4 +1,6 @@
-from flask import Flask, redirect, send_from_directory, url_for
+import json
+
+from flask import Flask, request, redirect, send_from_directory, url_for
 from flask.views import MethodView
 from flask_restful import Resource, Api
 from werkzeug.routing import BaseConverter
@@ -27,9 +29,27 @@ class CategoryApi(Resource):
                 yield dict(slug=doc.slug, title=doc.title)
         return list(gen())
 
+    def post(self, name):
+        obj = request.get_json()
+        json_file = site_dir / name / (obj['slug'] + '.json')
+        with json_file.open('w') as fp:
+            json.dump(fp, obj, indent=2)
+
+
+class TranslationApi(Resource):
+    def get(self, id):
+        cat, slug = id.split('-', 1)
+        json_file = site_dir / cat / (slug + '.json')
+        with json_file.open() as fp:
+            return json.load(fp)
+
+    def put(self, id):
+        cat, slug = id.split('-', 1)
+        return request.get_json()
+
 
 api.add_resource(CategoryApi, '/api/category/<name>/')
-
+api.add_resource(TranslationApi, '/api/translation/<id>/')
 
 
 @app.route('/')
