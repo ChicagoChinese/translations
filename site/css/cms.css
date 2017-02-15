@@ -21,6 +21,9 @@
 .sidebar a {
   cursor: pointer;
 }
+.sidebar .selected {
+  background-color: palegoldenrod;
+}
 
 main {
   flex: 1;

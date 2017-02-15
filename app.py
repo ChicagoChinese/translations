@@ -41,7 +41,9 @@ class TranslationApi(Resource):
         cat, slug = id.split('-', 1)
         json_file = site_dir / cat / (slug + '.json')
         with json_file.open() as fp:
-            return json.load(fp)
+            result = json.load(fp)
+            result['slug'] = slug
+            return result
 
     def put(self, id):
         cat, slug = id.split('-', 1)

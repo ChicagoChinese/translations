@@ -11,10 +11,19 @@ const app = new Vue({
     })
   },
   methods: {
+    isSelected(slug) {
+      return slug === this.workingCopy.slug
+    },
     choseDoc(slug) {
       axios.get(`/api/translation/${this.category}-${slug}/`).then(res => {
         this.workingCopy = res.data
       })
+    },
+    cancel() {
+      this.workingCopy = {}
+    },
+    submit(evt) {
+      console.log('submit')
     }
   }
 })

@@ -10,7 +10,7 @@
 <%def name='form_input(name)'>
   <div class='form-group'>
     <label>${name.capitalize()}</label>
-    <input class='form-control' name='${name}' v-bind:value='workingCopy.${name}'>
+    <input class='form-control' name='${name}' :value='workingCopy.${name}'>
   </div>
 </%def>
 
@@ -25,13 +25,17 @@
     </select>
 
     <ul>
-      <li v-for='doc in docs'>
+      <li v-for='doc in docs' :class='{selected: isSelected(doc.slug)}'>
         <a @click='choseDoc(doc.slug)'>{{ doc.title }}</a>
       </li>
     </ul>
   </div>
   <main>
-    <form>
+    <form @submit.prevent='submit'>
+      <div class='form-group'>
+        <label>Slug</label>
+        <input class='form-control' name='slug' :value='workingCopy.slug' readonly>
+      </div>
       ${form_input('title')}
       ${form_input('artist')}
       ${form_input('source')}
@@ -39,10 +43,10 @@
       <div class='form-group'>
         <label>Content</label>
         <textarea class='form-control' name='content'
-                  v-bind:value='workingCopy.content'></textarea>
+                  :value='workingCopy.content'></textarea>
       </div>
       <div class='buttons'>
-        <button class='btn btn-default'>Cancel</button>
+        <button class='btn btn-default' @click.prevent='cancel'>Cancel</button>
         <button type='submit' class='btn btn-primary'>Submit</button>
       </div>
     </form>
