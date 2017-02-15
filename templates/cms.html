@@ -24,6 +24,8 @@
     % endfor
     </select>
 
+    <button class='btn btn-primary btn-sm'>New translation</button>
+
     <ul>
       <li v-for='doc in docs' :class='{selected: isSelected(doc.slug)}'>
         <a @click='choseDoc(doc.slug)'>{{ doc.title }}</a>

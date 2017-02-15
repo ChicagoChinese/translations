@@ -20,6 +20,7 @@ const app = new Vue({
       })
     },
     cancel() {
+      // Form will revert to original values.
       this.workingCopy = Object.assign({}, this.workingCopy)
     },
     submit(evt) {

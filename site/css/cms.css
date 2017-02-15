@@ -7,16 +7,20 @@
 .sidebar {
   display: flex;
   flex-direction: column;
-  padding: 1rem;
+  padding: 1rem 1.5rem 0 1rem;
+  border-right: 1px dashed steelblue;
 }
 .sidebar select {
-  margin-bottom: 2rem;
+  margin-bottom: 1rem;
+}
+.sidebar button {
+  margin-bottom: 1rem;
 }
 .sidebar ul {
-  padding-left: 20px;
-  padding-right: 1rem;
-  overflow-y: scroll;
   flex: 1;
+  padding: 0.5rem 1rem 0.5rem 20px;
+  overflow-y: scroll;
+  border: 1px solid lightgray;
 }
 .sidebar a {
   cursor: pointer;
@@ -27,5 +31,5 @@
 
 main {
   flex: 1;
-  padding: 1rem;
+  padding: 1rem 1rem 1rem 1.5rem;
 }
