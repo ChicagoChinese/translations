@@ -17,7 +17,11 @@
     % endfor
     </select>
 
-    <div>{{ category }}</div>
+    <ul>
+      <li v-for='doc in docs'>
+        <a href='#'>{{ doc.title }}</a>
+      </li>
+    </ul>
   </div>
   <main>
   main
@@ -26,5 +30,7 @@
 
 <script src='http://code.jquery.com/jquery-3.1.1.min.js'></script>
 <script src='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js'></script>
-</body>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/axios/0.15.3/axios.min.js'></script>
 <script src='${ROOT}js/cms.js'></script>
+
+</body>

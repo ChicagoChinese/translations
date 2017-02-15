@@ -7,6 +7,12 @@
 .sidebar {
   padding: 1rem;
 }
+.sidebar select {
+  margin-bottom: 1rem;
+}
+.sidebar ul {
+  padding-left: 20px;
+}
 
 main {
   flex: 1;
