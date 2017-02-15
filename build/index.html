@@ -1,0 +1,17 @@
+<%inherit file='_base.html'/>
+
+<%block name='title_block'>Chicago Chinese Language Meetup Translations</%block>
+
+<h1>${title_block()}</h1>
+
+<h2>Translations</h2>
+
+${get_translation_files(PATH)}
+
+<ul>
+% for tfile in get_translation_files(PATH):
+  <li>
+    <a href='${tfile.with_suffix('')}'>${tfile.stem}</a>
+  </li>
+% endfor
+</ul>

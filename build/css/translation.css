@@ -1,0 +1,23 @@
+.translation {
+  padding: 1rem 0;
+  border-top: 1px solid lightgray;
+  border-bottom: 1px solid lightgray;
+  margin-bottom: 2rem;
+}
+.translation .line:hover {
+  background-color: #e0f7fa;
+}
+.translation .line.last {
+  margin-bottom: 2rem;
+}
+.translation .orig {
+  font-size: 1.8rem;
+}
+.translation .tran {
+  font-style: italic;
+  color: gray;
+}
+.translation .warning {
+  color: #f44336;
+  background-color: #fce4ec;
+}

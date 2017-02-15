@@ -1,4 +1,4 @@
-from flask import Flask, redirect, send_from_directory
+from flask import Flask, redirect, send_from_directory, url_for
 
 from common import site_dir, build_dir, site_root, categories
 from render import render_template, Document
@@ -20,9 +20,9 @@ def redirect_to_site_root():
     return redirect(site_root)
 
 
-@app.route('/cms')
+@app.route('/cms/')
 def cms():
-    return 'CMS'
+    return render_template('cms.html', categories=categories)
 
 
 @app.route(site_root)
@@ -56,3 +56,16 @@ def get_docs(category):
     cat_dir = site_dir / category
     for json_file in cat_dir.glob('*.json'):
         yield Document(json_file)
+
+
+def get_build_urls():
+    """
+    Return a sequence of URLs to generate HTML files from.
+
+    """
+    with app.test_request_context():
+        yield url_for('home')
+        for cat in categories:
+            yield url_for('category', category=cat)
+            for file_ in (site_dir / cat).glob('*.json'):
+                yield url_for('translation', category=cat, slug=file_.stem)
