@@ -19,12 +19,12 @@
 
     <ul>
       <li v-for='doc in docs'>
-        <a href='#'>{{ doc.title }}</a>
+        <a @click='choseDoc(doc.slug)'>{{ doc.title }}</a>
       </li>
     </ul>
   </div>
   <main>
-  main
+  {{ workingCopy }}
   </main>
 </div>
 

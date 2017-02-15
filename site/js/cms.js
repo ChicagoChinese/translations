@@ -6,10 +6,15 @@ const app = new Vue({
     workingCopy: null
   },
   mounted() {
-    console.log('mounted')
     axios.get(`/api/category/${this.category}/`).then(res => {
-      console.log(res)
       this.docs = res.data
     })
+  },
+  methods: {
+    choseDoc(slug) {
+      axios.get(`/api/translation/${this.category}-${slug}/`).then(res => {
+        this.workingCopy = res.data
+      })
+    }
   }
 })

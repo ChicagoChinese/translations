@@ -5,13 +5,21 @@
 }
 
 .sidebar {
+  display: flex;
+  flex-direction: column;
   padding: 1rem;
 }
 .sidebar select {
-  margin-bottom: 1rem;
+  margin-bottom: 2rem;
 }
 .sidebar ul {
   padding-left: 20px;
+  padding-right: 1rem;
+  overflow-y: scroll;
+  flex: 1;
+}
+.sidebar a {
+  cursor: pointer;
 }
 
 main {
