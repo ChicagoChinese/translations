@@ -1,4 +1,14 @@
+body {
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+}
+
+main {
+  flex: 1;
+}
+
 footer {
-  padding: 1rem 0;
   color: gray;
+  padding: 2rem 0;
 }

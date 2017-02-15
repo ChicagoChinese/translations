@@ -8,7 +8,6 @@ from render import render_template
 from app import app
 
 
-<<<<<<< HEAD
 @task
 def serve(ctx):
     """
@@ -17,12 +16,6 @@ def serve(ctx):
 
     """
     app.run(port=8000, debug=True)
-=======
-app = Flask(__name__)
-site = Path('site')
-build_dir = Path('build')
-lookup = TemplateLookup(directories=[str(site)], strict_undefined=True)
->>>>>>> origin/master
 
 
 @task
@@ -53,26 +46,7 @@ def build(ctx):
     """
     import shutil
 
-<<<<<<< HEAD
     clean(ctx)
-=======
-@task
-def build(ctx):
-    for src in site.rglob('*?.*'):
-        if src.name.startswith('_'):
-            continue
-        dest = build_dir / src.relative_to(site)
-        print(src, dest)
-
-@task
-def publish(ctx):
-    build()
-    run('ghp-import -n -p build')
-
-
-def run(cmd):
-    subprocess.call(cmd, shell=True)
->>>>>>> origin/master
 
     client = app.test_client()
 

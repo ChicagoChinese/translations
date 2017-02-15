@@ -1,7 +1,7 @@
 from io import StringIO
 from html.parser import HTMLParser
 
-from markdown import markdown
+from markdown2 import markdown
 
 import translation
 

@@ -1,6 +1,5 @@
-attrs
 Flask
 ghp-import
 Invoke
 Mako
-Markdown
+markdown2

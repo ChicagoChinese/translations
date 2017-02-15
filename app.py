@@ -2,9 +2,17 @@ from flask import Flask, redirect, send_from_directory
 
 from common import site_dir, build_dir, site_root, categories
 from render import render_template, Document
+from werkzeug.routing import BaseConverter
+
+
+class RegexConverter(BaseConverter):
+    def __init__(self, url_map, *items):
+        super(RegexConverter, self).__init__(url_map)
+        self.regex = items[0]
 
 
 app = Flask(__name__)
+app.url_map.converters['regex'] = RegexConverter
 
 
 @app.route('/')
@@ -17,13 +25,13 @@ def home():
     return render_template('index.html', categories=categories)
 
 
-@app.route(site_root + '<category>/')
+@app.route(site_root + '<regex("lyrics|document|video"):category>/')
 def category(category):
     return render_template(
         'category.html', category=category, docs=get_docs(category))
 
 
-@app.route(site_root + '<category>/<slug>/')
+@app.route(site_root + '<regex("lyrics|document|video"):category>/<slug>/')
 def translation(category, slug):
     json_file = site_dir / category / (slug + '.json')
     return render_template(

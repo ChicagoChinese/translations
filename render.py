@@ -2,9 +2,9 @@ import json
 from pathlib import Path
 
 from mako.lookup import TemplateLookup
-import markdown2
 
 from common import site_dir, template_dir, site_root
+from markdownext import parse
 
 
 lookup = TemplateLookup(
@@ -32,4 +32,4 @@ class Document:
 
     @property
     def content_html(self):
-        return markdown2.markdown(self.content)
+        return parse(self.content)
