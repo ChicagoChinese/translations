@@ -1,0 +1,16 @@
+<div class="lyrics">
+% for line in lines:
+  <div class="line row ${'last' if line.last else ''}">
+    <div class="orig col-xs-12 col-sm-6 col-md-5 col-lg-4">${line.orig}</div>
+    <%
+      extra_style = '' if line.tran else 'warning'
+    %>
+    <div class="tran ${extra_style} col-xs-12 col-sm-6 col-md-5 col-lg-4">
+      ${line.tran if line.tran else 'Missing translation'}
+    </div>
+    % if line.notes:
+      <div class="notes col-xs-12 col-md-12">${line.rendered_notes}</div>
+    % endif
+   </div>
+% endfor
+</div>

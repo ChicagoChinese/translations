@@ -5,23 +5,28 @@ import html
 
 import attr
 from markdown import markdown
+from mako.template import Template
+
+
+template = Template(filename='translation.html')
 
 
 def to_html(text):
     lines = get_translation_lines(text)
-    return get_translation_html(lines)
+    return template.render(lines=lines)
 
 
 @attr.s
 class TLine:
     """
-    A line of text that has a translated version and possibly some attached
-    notes.
+    A translation line, i.e. a line of text that has a translated version and
+    possibly some attached notes.
 
     """
     orig = attr.ib(default='')
     tran = attr.ib(default='')
     notes = attr.ib(default=attr.Factory(list))
+    last = attr.ib(default=False)   # True if last line in section
 
     @property
     def rendered_notes(self):
@@ -32,7 +37,7 @@ def get_translation_lines(text):
     dd = {}
     lines = []
 
-    for line in (l.strip() for l in text.splitlines() if l.strip()):
+    for line in (l.strip() for l in text.splitlines()):
         last_line = lines[-1] if len(lines) else None
 
         if line.startswith(';'):
@@ -40,28 +45,15 @@ def get_translation_lines(text):
             dd[last_line.orig] = last_line.tran
         elif line.startswith('^'):
             last_line.notes.append(line[1:])
-        else:
+        elif line:
             tline = TLine(orig=line)
             lines.append(tline)
+        else:
+            if last_line is not None:
+                last_line.last = True
 
     for line in lines:
         if line.tran == '':
-            line.tran = dd[line.orig]
+            line.tran = dd.get(line.orig, '')
 
     return lines
-
-
-def get_translation_html(lines):
-    escape = html.escape
-
-    def gen():
-        yield '<div class="lyrics">'
-        for tline in lines:
-            yield '<div class="line row">'
-            yield ' <div class="orig">{}</div>'.format(escape(tline.orig))
-            yield ' <div class="tran">{}</div>'.format(escape(tline.tran))
-            yield ' <div class="notes">{}</div>'.format(tline.rendered_notes)
-            yield '</div>'
-        yield '</div>'
-
-    return '\n'.join(gen())
