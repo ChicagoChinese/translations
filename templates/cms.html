@@ -4,22 +4,27 @@
 
 <%block name='extrahead'>
 <link rel='stylesheet' href='${ROOT}css/cms.css'>
+<script src='https://unpkg.com/vue/dist/vue.js'></script>
 </%block>
 
 <body>
 
-<div class='sidebar'>
-  <select>
-  % for cat in categories:
-    <option value="${cat}">${cat.capitalize()}</option>
-  % endfor
-  </select>
-</div>
+<div id='app'>
+  <div class='sidebar'>
+    <select v-model='category'>
+    % for cat in categories:
+      <option value="${cat}">${cat.capitalize()}</option>
+    % endfor
+    </select>
 
-<main>
-main
-</main>
+    <div>{{ category }}</div>
+  </div>
+  <main>
+  main
+  </main>
+</div>
 
 <script src='http://code.jquery.com/jquery-3.1.1.min.js'></script>
 <script src='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js'></script>
 </body>
+<script src='${ROOT}js/cms.js'></script>

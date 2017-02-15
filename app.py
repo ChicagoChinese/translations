@@ -59,7 +59,11 @@ def redirect_to_site_root():
 
 @app.route('/cms/')
 def cms():
-    return render_template('cms.html', categories=categories)
+    return render_template(
+        'cms.html',
+        # categories=categories
+        categories=['lyrics', 'document', 'video']
+    )
 
 
 @app.route(site_root)
