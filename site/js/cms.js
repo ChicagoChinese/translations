@@ -8,7 +8,6 @@ const app = new Vue({
   },
   mounted() {
     this.updateDocs()
-    let simplemde = new SimpleMDE()
   },
   computed: {
     submitButtonDisabled() {

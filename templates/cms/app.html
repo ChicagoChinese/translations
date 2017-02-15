@@ -1,0 +1,48 @@
+<%def name='form_input(name)'>
+  <div class='form-group'>
+    <label>${name.capitalize()}</label>
+    <input class='form-control' name='${name}' :value='workingCopy.${name}'>
+  </div>
+</%def>
+
+<div id='app'>
+  <div class='sidebar'>
+    <select v-model='category' @change='choseCategory'>
+    % for cat in categories:
+      <option value='${cat}'>${cat.capitalize()}</option>
+    % endfor
+    </select>
+
+    <button class='btn btn-primary btn-sm'
+            @click='newDoc'>New translation</button>
+
+    <ul>
+      <li v-for='doc in docs' :class='{selected: isSelected(doc.slug)}'>
+        <a @click='choseDoc(doc.slug)'>{{ doc.title }}</a>
+      </li>
+    </ul>
+  </div>
+  <main>
+    <form @submit.prevent='submit'>
+      <div class='form-group'>
+        <label>Slug</label>
+        <input class='form-control' name='slug' :value='workingCopy.slug'
+               :readonly='!isNew'>
+      </div>
+      ${form_input('title')}
+      ${form_input('artist')}
+      ${form_input('source')}
+      ${form_input('video')}
+      <div class='form-group'>
+        <label>Content</label>
+        <textarea class='form-control' name='content'
+                  :value='workingCopy.content'></textarea>
+      </div>
+      <div class='buttons'>
+        <button type='button' class='btn btn-default' @click.prevent='cancel'>Cancel</button>
+        <button type='submit' class='btn btn-primary'
+                :class='{disabled: false}'>Submit</button>
+      </div>
+    </form>
+  </main>
+</div>
