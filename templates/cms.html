@@ -7,13 +7,20 @@
 <script src='https://unpkg.com/vue/dist/vue.js'></script>
 </%block>
 
+<%def name='form_input(name)'>
+  <div class='form-group'>
+    <label>${name.capitalize()}</label>
+    <input class='form-control' name='${name}' v-bind:value='workingCopy.${name}'>
+  </div>
+</%def>
+
 <body>
 
 <div id='app'>
   <div class='sidebar'>
     <select v-model='category'>
     % for cat in categories:
-      <option value="${cat}">${cat.capitalize()}</option>
+      <option value='${cat}'>${cat.capitalize()}</option>
     % endfor
     </select>
 
@@ -24,7 +31,21 @@
     </ul>
   </div>
   <main>
-  {{ workingCopy }}
+    <form>
+      ${form_input('title')}
+      ${form_input('artist')}
+      ${form_input('source')}
+      ${form_input('video')}
+      <div class='form-group'>
+        <label>Content</label>
+        <textarea class='form-control' name='content'
+                  v-bind:value='workingCopy.content'></textarea>
+      </div>
+      <div class='buttons'>
+        <button class='btn btn-default'>Cancel</button>
+        <button type='submit' class='btn btn-primary'>Submit</button>
+      </div>
+    </form>
   </main>
 </div>
 

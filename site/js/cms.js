@@ -3,7 +3,7 @@ const app = new Vue({
   data: {
     category: 'lyrics',
     docs: [],
-    workingCopy: null
+    workingCopy: {}
   },
   mounted() {
     axios.get(`/api/category/${this.category}/`).then(res => {
