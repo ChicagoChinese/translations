@@ -66,7 +66,7 @@ const app = new Vue({
     choseDoc(slug) {
       axios.get(`/api/translation/${this.category}-${slug}/`).then(res => {
         this.currentDoc = res.data
-        this.workingDoc = res.data
+        this.workingDoc = Object.assign({}, res.data)
       })
     },
     cancel() {
@@ -86,7 +86,7 @@ const app = new Vue({
         if (res.status === 200 && this.isNew) {
           this.isNew = false
           this.currentDoc = res.data
-          this.workingDoc = res.data
+          this.workingDoc = Object.assign({}, res.data)
           this.updateDocs()
         }
         if (res.status !== 200) {
