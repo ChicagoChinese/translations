@@ -1,3 +1,12 @@
+Vue.component('mde', {
+  template: '<textarea>hello</textarea>',
+  props: ['value'],
+  mounted() {
+    let elem = this.$refs.textarea
+    // this.mde = new SimpleMDE({element: elem})
+  }
+})
+
 const app = new Vue({
   el: '#app',
   data: {

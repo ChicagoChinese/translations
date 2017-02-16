@@ -35,8 +35,7 @@
       ${form_input('video')}
       <div class='form-group'>
         <label>Content</label>
-        <textarea class='form-control' name='content'
-                  :value='workingCopy.content'></textarea>
+        <mde />
       </div>
       <div class='buttons'>
         <button type='button' class='btn btn-default' @click.prevent='cancel'>Cancel</button>
