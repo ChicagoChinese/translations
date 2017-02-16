@@ -1,5 +1,5 @@
 Vue.component('mde', {
-  template: '<textarea>hello</textarea>',
+  template: '#mde-template',
   props: ['value'],
   mounted() {
     let elem = this.$refs.textarea
