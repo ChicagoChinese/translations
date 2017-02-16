@@ -20,7 +20,7 @@ app.url_map.converters['regex'] = RegexConverter
 api = Api(app)
 
 
-class CategoryApi(Resource):
+class ApiCategories(Resource):
     def get(self, name):
         cat_dir = site_dir / name
         def gen():
@@ -37,26 +37,24 @@ class CategoryApi(Resource):
         return result
 
 
-class TranslationApi(Resource):
-    def get(self, id):
-        cat, slug = id.split('-', 1)
-        json_file = site_dir / cat / (slug + '.json')
+class ApiDocs(Resource):
+    def get(self, name, slug):
+        json_file = site_dir / name / (slug + '.json')
         with json_file.open() as fp:
             result = json.load(fp)
             result['slug'] = slug
             return result
 
-    def put(self, id):
-        cat, slug = id.split('-', 1)
-        json_file = site_dir / cat / (slug + '.json')
+    def put(self, name, slug):
+        json_file = site_dir / name / (slug + '.json')
         result = request.get_json()
         with json_file.open('w') as fp:
             json.dump(result, fp, indent=2)
         return result
 
 
-api.add_resource(CategoryApi, '/api/category/<name>/')
-api.add_resource(TranslationApi, '/api/translation/<id>/')
+api.add_resource(ApiCategories, '/api/categories/<name>/')
+api.add_resource(ApiDocs, '/api/categories/<name>/docs/<slug>/')
 
 
 @app.route('/')
