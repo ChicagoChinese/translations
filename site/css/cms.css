@@ -1,12 +1,17 @@
-#app {
-  height: 100vh;
+.vbox {
+  display: flex;
+  flex-direction: column;
+}
+.hbox {
   display: flex;
   flex-direction: row;
 }
 
+#app {
+  height: 100vh;
+}
+
 .sidebar {
-  display: flex;
-  flex-direction: column;
   padding: 1rem 1.5rem 0 1rem;
   border-right: 1px dashed steelblue;
 }
@@ -35,14 +40,10 @@ main {
   padding: 1rem 1rem 1rem 1.5rem;
 }
 main form {
-  display: flex;
   height: 100%;
-  flex-direction: column;
 }
 main .content-container {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
+  flex: 1;  
 }
 main .content-container textarea {
   flex: 1;
