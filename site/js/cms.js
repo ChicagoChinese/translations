@@ -15,13 +15,20 @@ Vue.component('mde', {
   }
 })
 
-Vue.component('metadata-edit', {
-  template: '#metadata-edit-template',
-})
-
-Vue.component('content-edit', {
+const ContentEdit = {
   template: '#content-edit-template',
-})
+  props: ['doc']
+}
+
+const MetadataEdit = {
+  template: '#metadata-edit-template',
+  props: ['doc']
+}
+
+const routes = [
+  {path: '/', component: MetadataEdit},
+  {path: '/content', component: ContentEdit}
+]
 
 const app = new Vue({
   el: '#app',
@@ -29,7 +36,8 @@ const app = new Vue({
     category: 'lyrics',
     docs: [],
     isNew: false,
-    workingCopy: {}
+    currentDoc: null,   // the selected doc
+    workingDoc: {}      // connected to the form inputs
   },
   mounted() {
     this.updateDocs()
@@ -41,23 +49,24 @@ const app = new Vue({
   },
   methods: {
     isSelected(slug) {
-      return slug === this.workingCopy.slug
+      return slug === this.workingDoc.slug
     },
     choseCategory() {
       this.updateDocs()
-      this.workingCopy = {}
+      this.currentDoc = null
+      this.workingDoc = {}
     },
     choseDoc(slug) {
       axios.get(`/api/translation/${this.category}-${slug}/`).then(res => {
-        this.workingCopy = res.data
+        this.currentDoc = res.data
+        this.workingDoc = res.data
       })
     },
     cancel() {
-      // Form will revert to original values.
-      this.workingCopy = Object.assign({}, this.workingCopy)
+      this.workingDoc = Object.assign({}, this.currentDoc)
     },
     submit(evt) {
-      let payload = getFormPayload(evt.target)
+      let payload = getPayload(this.workingDoc)
       let url, requestFn
       if (this.isNew) {
         url = `/api/category/${this.category}/`
@@ -69,7 +78,8 @@ const app = new Vue({
       requestFn(url, payload).then(res => {
         if (res.status === 200 && this.isNew) {
           this.isNew = false
-          this.workingCopy = res.data
+          this.currentDoc = res.data
+          this.workingDoc = res.data
           this.updateDocs()
         }
         if (res.status !== 200) {
@@ -83,20 +93,21 @@ const app = new Vue({
       })
     },
     newDoc() {
-      this.$el.querySelector('input[name=slug]').focus()
-      this.workingCopy = {}
+      this.currentDoc = null
+      this.workingDoc = {}
       this.isNew = true
+      this.$el.querySelector('input[name=slug]').focus()
     }
   }
 })
 
 
-function getFormPayload(form) {
-  let formData = new FormData(form)
-  let payload = {}
-  for (let [k, v] of formData.entries()) {
-    if (v !== '') {
-      payload[k] = v
+function getPayload(doc) {
+  let payload = Object.assign({}, doc)
+  for (let key in payload) {
+    let value = payload[key]
+    if (value === '') {
+      delete payload[key]
     }
   }
   return payload

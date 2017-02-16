@@ -2,7 +2,7 @@
   <div class='form-group'>
     <label class='col-sm-1 control-label'>${name.capitalize()}</label>
     <div class='col-sm-11'>
-      <input class='form-control' name='${name}' :value='workingCopy.${name}'>
+      <input class='form-control' name='${name}' v-model='workingDoc.${name}'>
     </div>
   </div>
 </%def>
@@ -30,7 +30,7 @@
         <div class='form-group'>
           <label class='col-sm-1 control-label'>Slug</label>
           <div class='col-sm-11'>
-            <input class='form-control' name='slug' :value='workingCopy.slug'
+            <input class='form-control' name='slug' v-model='workingDoc.slug'
                    :readonly='!isNew'>
           </div>
         </div>
@@ -45,7 +45,7 @@
           <a href='#'>Edit</a>
         </div>
         <textarea name='content' class='form-control' readonly
-                  :value='workingCopy.content'></textarea>
+                  v-model='workingDoc.content'></textarea>
       </div>
       <div class='buttons'>
         <button type='button' class='btn btn-default' @click.prevent='cancel'>Cancel</button>
