@@ -64,7 +64,7 @@ const app = new Vue({
       this.workingDoc = {}
     },
     choseDoc(slug) {
-      axios.get(`/api/translation/${this.category}-${slug}/`).then(res => {
+      axios.get(`/api/categories/${this.category}/docs/${slug}/`).then(res => {
         this.currentDoc = res.data
         this.workingDoc = Object.assign({}, res.data)
       })
@@ -76,10 +76,10 @@ const app = new Vue({
       let payload = getPayload(this.workingDoc)
       let url, requestFn
       if (this.isNew) {
-        url = `/api/category/${this.category}/`
+        url = `/api/categories/${this.category}/`
         requestFn = axios.post
       } else {
-        url = `/api/translation/${this.category}-${payload.slug}/`
+        url = `/api/categories/${this.category}/docs/${payload.slug}/`
         requestFn = axios.put
       }
       requestFn(url, payload).then(res => {
@@ -95,7 +95,7 @@ const app = new Vue({
       })
     },
     updateDocs() {
-      axios.get(`/api/category/${this.category}/`).then(res => {
+      axios.get(`/api/categories/${this.category}/`).then(res => {
         this.docs = res.data
       })
     },
