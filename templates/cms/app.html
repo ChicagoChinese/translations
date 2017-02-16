@@ -1,13 +1,15 @@
 <%def name='form_input(name)'>
   <div class='form-group'>
-    <label>${name.capitalize()}</label>
-    <input class='form-control' name='${name}' :value='workingCopy.${name}'>
+    <label class='col-sm-1 control-label'>${name.capitalize()}</label>
+    <div class='col-sm-11'>
+      <input class='form-control' name='${name}' :value='workingCopy.${name}'>
+    </div>
   </div>
 </%def>
 
 <div id='app'>
   <div class='sidebar'>
-    <select v-model='category' @change='choseCategory'>
+    <select class='form-control' v-model='category' @change='choseCategory'>
     % for cat in categories:
       <option value='${cat}'>${cat.capitalize()}</option>
     % endfor
@@ -24,15 +26,19 @@
   </div>
   <main>
     <form @submit.prevent='submit'>
-      <div class='form-group'>
-        <label>Slug</label>
-        <input class='form-control' name='slug' :value='workingCopy.slug'
-               :readonly='!isNew'>
+      <div class='form-horizontal'>
+        <div class='form-group'>
+          <label class='col-sm-1 control-label'>Slug</label>
+          <div class='col-sm-11'>
+            <input class='form-control' name='slug' :value='workingCopy.slug'
+                   :readonly='!isNew'>
+          </div>
+        </div>
+        ${form_input('title')}
+        ${form_input('artist')}
+        ${form_input('source')}
+        ${form_input('video')}
       </div>
-      ${form_input('title')}
-      ${form_input('artist')}
-      ${form_input('source')}
-      ${form_input('video')}
       <div class='form-group'>
         <label>Content</label>
         <mde :value='workingCopy.content' />
