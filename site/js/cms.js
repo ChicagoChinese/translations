@@ -3,7 +3,15 @@ Vue.component('mde', {
   props: ['value'],
   mounted() {
     let elem = this.$refs.textarea
-    // this.mde = new SimpleMDE({element: elem})
+    this.mde = new SimpleMDE({element: elem})
+    this.mde.codemirror.on('change', () => {
+      elem.value = this.mde.value()
+    })
+  },
+  watch: {
+    value: function(newVal) {
+      this.mde.value(newVal)
+    }
   }
 })
 
