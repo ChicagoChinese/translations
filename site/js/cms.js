@@ -15,6 +15,14 @@ Vue.component('mde', {
   }
 })
 
+Vue.component('metadata-edit', {
+  template: '#metadata-edit-template',
+})
+
+Vue.component('content-edit', {
+  template: '#content-edit-template',
+})
+
 const app = new Vue({
   el: '#app',
   data: {
