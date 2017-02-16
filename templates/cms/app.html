@@ -37,18 +37,17 @@
         ${form_input('title')}
         ${form_input('artist')}
         ${form_input('source')}
-        ${form_input('video')}
       </div>
       <div class='form-group content-container vbox'>
         <div>
           <label>Content</label>
           <a href='#'>Edit</a>
         </div>
-        <textarea name='content' class='form-control' readonly
-                  v-model='workingDoc.content'></textarea>
+        <mde v-model='workingDoc.content'></mde>
       </div>
       <div class='buttons'>
-        <button type='button' class='btn btn-default' @click.prevent='cancel'>Cancel</button>
+        <button type='button' class='btn btn-default'
+                @click.prevent='cancel'>Cancel</button>
         <button type='submit' class='btn btn-primary'
                 :class='{disabled: false}'>Submit</button>
       </div>

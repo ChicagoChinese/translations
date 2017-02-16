@@ -1,16 +1,23 @@
+/*
+Source: https://github.com/F-loat/vue-simplemde/blob/master/markdown-editor.vue
+*/
 Vue.component('mde', {
   template: '#mde-template',
   props: ['value'],
   mounted() {
-    let elem = this.$refs.textarea
-    this.mde = new SimpleMDE({element: elem})
+    this.mde = new SimpleMDE({
+      element: this.$el,
+      initialValue: this.value
+    })
     this.mde.codemirror.on('change', () => {
-      elem.value = this.mde.value()
+      this.$emit('input', this.mde.value())
     })
   },
   watch: {
     value: function(newVal) {
-      this.mde.value(newVal)
+      if (newVal !== this.mde.value()) {
+        this.mde.value(newVal)
+      }
     }
   }
 })
