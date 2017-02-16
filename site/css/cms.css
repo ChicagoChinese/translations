@@ -34,3 +34,16 @@ main {
   overflow-y: scroll;
   padding: 1rem 1rem 1rem 1.5rem;
 }
+main form {
+  display: flex;
+  height: 100%;
+  flex-direction: column;
+}
+main .content-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+main .content-container textarea {
+  flex: 1;
+}
