@@ -20,7 +20,7 @@
 
     <ul>
       <li v-for='doc in docs' :class='{selected: isSelected(doc.slug)}'>
-        <a @click='choseDoc(doc.slug)'>{{ doc.title }}</a>
+        <a href='#' @click.prevent='choseDoc(doc.slug)'>{{ doc.title }}</a>
       </li>
     </ul>
   </div>
@@ -40,7 +40,10 @@
         ${form_input('video')}
       </div>
       <div class='form-group content-container vbox'>
-        <label>Content</label>
+        <div>
+          <label>Content</label>
+          <a href='#'>Edit</a>
+        </div>
         <textarea name='content' class='form-control' readonly
                   :value='workingCopy.content'></textarea>
       </div>
